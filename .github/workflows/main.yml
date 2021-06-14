@@ -15,6 +15,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+
   Install python:
     runs-on: self-hosted
     steps:
@@ -28,6 +29,7 @@ jobs:
 
   CodeStyle:
     runs-on: self-hosted
+    needs: Install python
     steps:
       - uses: actions/checkout@v2
       - name: install dependencies

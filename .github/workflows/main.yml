@@ -15,7 +15,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
-  Install_python:
+  CodeStyle:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
@@ -25,11 +25,6 @@ jobs:
           python-version: '3.x'
       - name: Install dependencies
         run: python -m pip install --upgrade pip
-
-  CodeStyle:
-    runs-on: self-hosted
-    needs: Install_python
-    steps:
       - uses: actions/checkout@v2
       - name: install dependencies
         run: pip install flake8

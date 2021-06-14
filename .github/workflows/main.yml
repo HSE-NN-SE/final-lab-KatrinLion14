@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install dependencies
-        run: pip install flake8
+        run: python pip install flake8
       - name: Codestyle
         run: python -m flake8 ./ --ignore=F401,E402
         

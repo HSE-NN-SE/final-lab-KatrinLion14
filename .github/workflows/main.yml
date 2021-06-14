@@ -1,0 +1,55 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  CodeStyle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install dependencies
+        run: pip install flake8
+      - name: Codestyle
+        run: python -m flake8 ./ --ignore=F401,E402
+        
+  Tests:
+    runs-on: ubuntu-latest
+    needs: CodeStyle
+    steps:
+      - uses: actions/checkout@v2
+      - name: tests
+        run: |
+          pip install -e '.[test]'
+          python -m coverage run -m pytest
+          python -m coverage report
+
+  TelegramNotifications:
+    runs-on: ubuntu-latest
+    needs: Tests
+    steps:
+      - name: Notification Failed
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO_DEBUG }}
+          token: ${{ secrets.TELEGRAM_TOKEN_DEBUG }}
+          message: ❌ fail ❌
+      - name: Notification Failed
+        if: success()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO_DEBUG }}
+          token: ${{ secrets.TELEGRAM_TOKEN_DEBUG }}
+          message: 🙌 success 🙌

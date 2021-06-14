@@ -100,7 +100,7 @@ jobs:
         if: success()
         run: curl -Is 20.83.179.121 | head -1 > logfile.txt
       - name: testing dont mind me
-        if: seccess()
+        if: success()
         run: cat logfile.txt
       - name: Notification Failed
         if: failure()

@@ -99,6 +99,9 @@ jobs:
       - name: check
         if: success()
         run: curl -Is 20.83.179.121 | head -1 > logfile.txt
+      - name: testing dont mind me
+        if: seccess()
+        run: cat logfile.txt
       - name: Notification Failed
         if: failure()
         uses: appleboy/telegram-action@master
@@ -106,7 +109,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO_DEBUG }}
           token: ${{ secrets.TELEGRAM_TOKEN_DEBUG }}
           message: ❌ fail ❌
-      - name: Notification Failed
+      - name: Notification Succeeded
         if: success()
         uses: appleboy/telegram-action@master
         with:
